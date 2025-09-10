@@ -1,0 +1,15 @@
+Reactプロジェクト
+
+src/
+├── App.tsx             # メインのコンポーネント。画面遷移を管理。
+├── index.tsx           # アプリケーションのエントリーポイント。
+├── types/              # 型定義をまとめるディレクトリ
+│   └── index.ts        # 各種インターフェースを定義。
+├── components/         # 画面ごとのコンポーネントを配置
+│   ├── PartyInputScreen.tsx
+│   ├── OrderScreen.tsx
+│   ├── CartScreen.tsx
+│   ├── CompleteScreen.tsx
+│   └── styles.css      # 全体共通のスタイルシート
+└── data/               # モックデータなどを配置
+    └── menuData.json   # 商品リストのデータ

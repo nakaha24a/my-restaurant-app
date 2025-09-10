@@ -1,0 +1,23 @@
+[
+  {
+    "id": "item1",
+    "name": "特選和牛カルビ",
+    "price": 1200,
+    "description": "口の中でとろける厳選和牛。",
+    "image": "https://example.com/wagyu.jpg"
+  },
+  {
+    "id": "item2",
+    "name": "新鮮野菜サラダ",
+    "price": 680,
+    "description": "採れたて野菜を使ったシャキシャキサラダ。",
+    "image": "https://example.com/salad.jpg"
+  },
+  {
+    "id": "item3",
+    "name": "鶏もも唐揚げ",
+    "price": 750,
+    "description": "ジューシーな鶏もも肉をサクサクに揚げました。",
+    "image": "https://example.com/karaage.jpg"
+  }
+]
