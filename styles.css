@@ -1,0 +1,116 @@
+/* 共通スタイル */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.screen {
+  padding: 20px;
+}
+
+h2 {
+  text-align: center;
+  color: #333;
+}
+
+button {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 20px;
+}
+
+/* メンバー入力画面 */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.members-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.member-input {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 注文画面 */
+.menu-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.menu-item {
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  width: calc(50% - 10px);
+  box-sizing: border-box;
+}
+
+.menu-item img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+.item-info h3,
+.item-info p {
+  margin: 5px 0;
+}
+
+.item-info select,
+.item-info button {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.goto-cart-btn {
+  background-color: #28a745;
+}
+
+/* カート画面 */
+.cart-list {
+  list-style: none;
+  padding: 0;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.total {
+  text-align: right;
+  margin-top: 20px;
+  font-size: 1.2em;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
