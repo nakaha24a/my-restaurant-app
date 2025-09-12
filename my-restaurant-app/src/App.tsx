@@ -1,68 +1,69 @@
 import React, { useState } from "react";
-import "./components/styles.css";
 import PartyInputScreen from "./components/PartyInputScreen";
-import OrderScreen from "./components/OrderScreen";
-import CartScreen from "./components/CartScreen";
+import OrderScreen from "./components/OrderScreen"; // CartSidebarも含むように変更
+import CheckoutScreen from "./components/CheckoutScreen";
 import CompleteScreen from "./components/CompleteScreen";
 import { Member, CartItem, Order } from "./types";
+import "./App.css";
 
-type ScreenState = "partyInput" | "order" | "cart" | "complete";
+type Screen = "partyInput" | "order" | "checkout" | "complete";
 
 const App: React.FC = () => {
-  const [currentScreen, setCurrentScreen] = useState<ScreenState>("partyInput");
+  const [currentScreen, setCurrentScreen] = useState<Screen>("partyInput");
   const [members, setMembers] = useState<Member[]>([]);
   const [cart, setCart] = useState<CartItem[]>([]);
   const [order, setOrder] = useState<Order | null>(null);
 
-  const handleStartOrder = (partyMembers: Member[]) => {
-    setMembers(partyMembers);
+  const handleStartOrder = (members: Member[]) => {
+    setMembers(members);
     setCurrentScreen("order");
   };
 
-  const handleConfirmOrder = (cartItems: CartItem[]) => {
-    setCart(cartItems);
-    setCurrentScreen("cart");
+  const handleUpdateCart = (updatedCart: CartItem[]) => {
+    setCart(updatedCart);
   };
 
-  const handleCompleteOrder = (finalCart: CartItem[]) => {
+  const handleGoToCheckout = () => {
+    setCurrentScreen("checkout");
+  };
+
+  const handleCompleteOrder = () => {
     const newOrder: Order = {
-      id: Date.now(),
-      members,
-      items: finalCart,
-      total: finalCart.reduce(
-        (sum, item) => sum + item.price * item.quantity,
-        0
-      ),
+      id: Math.floor(Math.random() * 100000),
+      members: members,
+      items: cart,
+      total: cart.reduce((sum, item) => sum + item.price * item.quantity, 0),
       timestamp: new Date().toISOString(),
     };
     setOrder(newOrder);
     setCurrentScreen("complete");
   };
 
-  const renderScreen = () => {
-    switch (currentScreen) {
-      case "partyInput":
-        return <PartyInputScreen onStartOrder={handleStartOrder} />;
-      case "order":
-        return (
-          <OrderScreen members={members} onConfirmOrder={handleConfirmOrder} />
-        );
-      case "cart":
-        return (
-          <CartScreen
-            cart={cart}
-            onBackToOrder={() => setCurrentScreen("order")}
-            onCompleteOrder={handleCompleteOrder}
-          />
-        );
-      case "complete":
-        return <CompleteScreen order={order} />;
-      default:
-        return <PartyInputScreen onStartOrder={handleStartOrder} />;
-    }
-  };
-
-  return <div className="app-container">{renderScreen()}</div>;
+  return (
+    <div className="app-container">
+      {currentScreen === "partyInput" && (
+        <PartyInputScreen onStartOrder={handleStartOrder} />
+      )}
+      {currentScreen === "order" && (
+        // OrderScreen内でメニューとカートサイドバーの両方を表示
+        <OrderScreen
+          members={members}
+          cart={cart}
+          onUpdateCart={handleUpdateCart}
+          onGoToCheckout={handleGoToCheckout}
+        />
+      )}
+      {currentScreen === "checkout" && (
+        <CheckoutScreen
+          cart={cart}
+          members={members}
+          onBackToOrder={() => setCurrentScreen("order")}
+          onCompleteOrder={handleCompleteOrder}
+        />
+      )}
+      {currentScreen === "complete" && <CompleteScreen order={order} />}
+    </div>
+  );
 };
 
 export default App;
