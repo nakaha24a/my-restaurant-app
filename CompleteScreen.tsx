@@ -3,9 +3,10 @@ import { Order } from "../types";
 
 interface CompleteScreenProps {
   order: Order | null;
+  status: string;
 }
 
-const CompleteScreen: React.FC<CompleteScreenProps> = ({ order }) => {
+const CompleteScreen: React.FC<CompleteScreenProps> = ({ order, status }) => {
   if (!order) {
     return (
       <div className="screen complete-screen">
@@ -21,12 +22,10 @@ const CompleteScreen: React.FC<CompleteScreenProps> = ({ order }) => {
       <p>
         ご注文番号：<strong>#{order.id}</strong>
       </p>
-      <p>
-        合計金額：<strong>¥{order.total}</strong>
-      </p>
-      <p>
-        この度はご利用いただきありがとうございます。注文が完了しました。担当者がお伺いします。
-      </p>
+      <h3>
+        現在の状況: <span className="status">{status}</span>
+      </h3>
+      <p>この度はご利用いただきありがとうございます。担当者がお伺いします。</p>
     </div>
   );
 };
