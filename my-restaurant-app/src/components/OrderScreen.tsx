@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import menuData from "../data/menuData.json";
 import { Member, CartItem, MenuItem } from "../types";
 
@@ -15,6 +15,23 @@ const OrderScreen: React.FC<OrderScreenProps> = ({
   onUpdateCart,
   onGoToCheckout,
 }) => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("すべて");
+
+  const categories = [
+    "すべて",
+    ...new Set(menuData.map((item) => item.category)),
+  ];
+
+  const filteredMenu = menuData.filter((item) => {
+    const matchesSearch = item.name
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "すべて" || item.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
   const handleAddToCart = (
     item: MenuItem,
     memberId: number,
@@ -25,7 +42,6 @@ const OrderScreen: React.FC<OrderScreenProps> = ({
     );
 
     if (existingItemIndex !== -1) {
-      // 既存アイテムを更新
       const newCart = [...cart];
       newCart[existingItemIndex] = {
         ...newCart[existingItemIndex],
@@ -33,7 +49,6 @@ const OrderScreen: React.FC<OrderScreenProps> = ({
       };
       onUpdateCart(newCart);
     } else {
-      // 新規アイテムを追加
       onUpdateCart([
         ...cart,
         { ...item, quantity: quantity, orderedBy: memberId },
@@ -77,46 +92,64 @@ const OrderScreen: React.FC<OrderScreenProps> = ({
     <div className="order-layout">
       <div className="screen order-screen">
         <h2>メニュー</h2>
+        <div className="menu-controls">
+          <input
+            type="text"
+            placeholder="商品を検索..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+          <select onChange={(e) => setSelectedCategory(e.target.value)}>
+            {categories.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="menu-list">
-          {menuData.map((item) => (
-            <div key={item.id} className="menu-item">
-              <img src={item.image} alt={item.name} />
-              <div className="item-info">
-                <h3>{item.name}</h3>
-                <p>{item.description}</p>
-                <p>¥{item.price}</p>
-                <div className="item-controls">
-                  {members.length > 1 ? (
-                    <select
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                        handleAddToCart(item, Number(e.target.value))
-                      }
-                      defaultValue=""
-                    >
-                      <option value="" disabled>
-                        注文者を選択
-                      </option>
-                      {members.map((member) => (
-                        <option key={member.id} value={member.id}>
-                          {member.name}
+          {filteredMenu.length > 0 ? (
+            filteredMenu.map((item: MenuItem) => (
+              <div key={item.id} className="menu-item">
+                <img src={item.image} alt={item.name} />
+                <div className="item-info">
+                  <h3>{item.name}</h3>
+                  <p>{item.description}</p>
+                  <p>¥{item.price}</p>
+                  <div className="item-controls">
+                    {members.length > 1 ? (
+                      <select
+                        onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+                          handleAddToCart(item, Number(e.target.value))
+                        }
+                        defaultValue=""
+                      >
+                        <option value="" disabled>
+                          注文者を選択
                         </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <button
-                      onClick={() => handleAddToCart(item, members[0].id)}
-                    >
-                      カートに追加
-                    </button>
-                  )}
+                        {members.map((member) => (
+                          <option key={member.id} value={member.id}>
+                            {member.name}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <button
+                        onClick={() => handleAddToCart(item, members[0].id)}
+                      >
+                        カートに追加
+                      </button>
+                    )}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p>該当する商品が見つかりません。</p>
+          )}
         </div>
       </div>
 
-      {/* Cart Sidebar */}
       <div className="cart-sidebar">
         <h2>カート</h2>
         {cart.length === 0 ? (

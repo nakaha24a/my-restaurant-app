@@ -11,6 +11,7 @@ export interface MenuItem {
   price: number;
   description: string;
   image: string;
+  category: string; // ✅ 追加
 }
 
 // カート内の商品の型定義
