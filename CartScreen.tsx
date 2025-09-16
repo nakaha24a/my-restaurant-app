@@ -1,23 +1,24 @@
 import React from "react";
-import { CartItem } from "../types";
+import { CartItem, Member } from "../types";
 
 interface CartScreenProps {
   cart: CartItem[];
+  members: Member[];
   onBackToOrder: () => void;
-  onCompleteOrder: (cart: CartItem[]) => void;
+  onGoToCheckout: () => void; // 会計画面への遷移関数を追加
 }
 
 const CartScreen: React.FC<CartScreenProps> = ({
   cart,
+  members,
   onBackToOrder,
-  onCompleteOrder,
+  onGoToCheckout,
 }) => {
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const getMemberName = (id: number): string => {
-    // Note: members prop is not passed to this component for simplicity.
-    // In a real app, you would pass it down from App.tsx.
-    return `参加者${id}`; // 仮の表示
+    const member = members.find((m) => m.id === id);
+    return member?.name || `参加者${id}`;
   };
 
   return (
@@ -38,7 +39,7 @@ const CartScreen: React.FC<CartScreenProps> = ({
       </div>
       <div className="button-group">
         <button onClick={onBackToOrder}>メニューに戻る</button>
-        <button onClick={() => onCompleteOrder(cart)}>注文を確定する</button>
+        <button onClick={onGoToCheckout}>注文を確定する</button>
       </div>
     </div>
   );
