@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "my-restaurant-app",
+			"path": "../.git/my-restaurant-app"
+		}
+	],
+	"settings": {}
+}

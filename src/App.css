@@ -1,0 +1,52 @@
+/* App.css に追加 */
+
+/* 全体的なレイアウトの調整 */
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* メニューのレイアウト調整 */
+.menu-container {
+  width: 100%;
+  max-width: 600px; /* PCでの最大幅 */
+}
+
+.menu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  border-bottom: 1px solid #ccc;
+}
+
+/* 戻るボタンのスタイル */
+.back-button {
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  border: 1px solid #ccc;
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+
+/* スマートフォン向けのスタイル */
+@media (max-width: 600px) {
+  /* 入力欄とボタンのフォントサイズを調整 */
+  .number-selector input,
+  .number-selector button {
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  /* メニュー項目のフォントサイズを小さくする */
+  .menu-item {
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+}
